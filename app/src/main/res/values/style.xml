@@ -11,7 +11,13 @@
     </style>
 
 
+    <style name="CursorColor">
+        <item name="colorPrimary">@color/four</item>
+    </style>>
+
+
     <style name="MaterialCalendarTheme" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
+        <item name="colorPrimary">@color/three</item>
 
         <!-- Header panel -->
         <item name="materialCalendarHeaderLayout">@style/MaterialCalendar.HeaderLayout1</item>

@@ -1,4 +1,4 @@
-package com.example.saveplaces
+package com.example.saveplaces.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -6,7 +6,7 @@ import android.os.Bundle
 import com.example.saveplaces.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-
+  // refactor all the names
     private var binding: ActivityMainBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
