@@ -7,9 +7,10 @@
     <string name="edit_text_hint_location">Location</string>
     <string name="text_add_image">ADD IMAGE</string>
     <string name="btn_text_save">SAVE</string>
-    <string name="note_text_no_happy_place_found_yet">No Happy Places Found Yet. Kindly Add One…</string>
+    <string name="not_saved_places_text">You have not Saved Any Places Try to add one…</string>
 
     <string name="image_content_description">image</string>
 
     <string name="btn_text_view_on_map">VIEW ON MAP</string>
+    <string name="fab_to_add_places_text">fab to add places</string>
 </resources>

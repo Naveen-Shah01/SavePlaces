@@ -1,7 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-
+    //enable kotlin annotation processor
+    id 'kotlin-kapt'
 }
 
 android {
@@ -37,7 +38,19 @@ android {
 }
 
 dependencies {
+    // for dexter
     implementation 'com.karumi:dexter:6.2.3'
+
+    def room_version = '2.4.3'
+
+    implementation("androidx.room:room-runtime:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
+    // To use Kotlin annotation processing tool (kapt)
+    kapt("androidx.room:room-compiler:$room_version")
+
+    // optional - Kotlin Extensions and Coroutines support for Room
+    implementation("androidx.room:room-ktx:$room_version")
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.5.1"
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'

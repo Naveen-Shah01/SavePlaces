@@ -31,6 +31,6 @@
 
     <color name="detail_screen_description_text_color">#10002B</color>
 
-    <color name="edit_color_recyclerview">#3C096C</color>
-    <color name="delete_color_recyclerview">#DDAA05</color>
+    <color name="delete_color_recyclerview">#B80000</color>
+    <color name="edit_color_recyclerview">#DDAA05</color>
 </resources>

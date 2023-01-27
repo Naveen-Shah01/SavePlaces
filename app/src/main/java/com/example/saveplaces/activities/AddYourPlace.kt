@@ -18,7 +18,11 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.lifecycle.lifecycleScope
 import com.example.saveplaces.R
+import com.example.saveplaces.SavePlacesApp
+import com.example.saveplaces.database.SavePlacesDao
+import com.example.saveplaces.database.SavePlacesEntity
 import com.example.saveplaces.databinding.ActivityAddYourPlaceBinding
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.karumi.dexter.Dexter
@@ -26,6 +30,7 @@ import com.karumi.dexter.MultiplePermissionsReport
 import com.karumi.dexter.PermissionToken
 import com.karumi.dexter.listener.PermissionRequest
 import com.karumi.dexter.listener.multi.MultiplePermissionsListener
+import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -37,10 +42,12 @@ class AddYourPlace : AppCompatActivity() {
 
     private var binding: ActivityAddYourPlaceBinding? = null
     private var saveImageUri: Uri? = null
+    private var mLatitude: Double = 0.0
+    private var mLongitude: Double = 0.0
+    private var savePlaceEditDetail: SavePlacesEntity ?=null
 
     companion object {
-        private const val IMAGE_DIRECTORY = "HappyPlacesImages"
-        private const val PLACE_AUTOCOMPLETE_REQUEST_CODE = 3
+        private const val IMAGE_DIRECTORY = "SavePlacesImages"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,26 +56,57 @@ class AddYourPlace : AppCompatActivity() {
         setContentView(binding?.root)
 
 
+        val savePlaceDao = (application as SavePlacesApp).db.savePlacesDao()
+
         setSupportActionBar(binding?.toolbarAddPlace)
         if (supportActionBar != null) {
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
         }
+
         binding?.toolbarAddPlace?.setNavigationOnClickListener {
             onBackPressedDispatcher.onBackPressed()
         }
+        // for update feature
+        if (intent.hasExtra(MainActivity.EXTRA_PLACE_DETAILS)) {
+            savePlaceEditDetail =
+                intent.getSerializableExtra(MainActivity.EXTRA_PLACE_DETAILS) as SavePlacesEntity
+
+            updateDetails()
+        }
+
+
+
         binding?.etDate?.setOnClickListener {
             materialDatePickerDialog()
         }
         binding?.tvAddImage?.setOnClickListener {
             showPermissionDialog()
         }
+        binding?.btnSave?.setOnClickListener {
+            addUpdatePlace(savePlaceDao)
+        }
 
+
+    }
+
+    private fun updateDetails() {
+        supportActionBar?.title = "EDIT YOUR PLACE"
+        binding?.etTitle?.setText(savePlaceEditDetail!!.title)
+        binding?.etDescription?.setText(savePlaceEditDetail!!.description)
+        binding?.etDate?.setText(savePlaceEditDetail!!.date)
+        binding?.etLocation?.setText(savePlaceEditDetail!!.location)
+        mLatitude = savePlaceEditDetail!!.latitude
+        mLongitude = savePlaceEditDetail!!.longitude
+
+        saveImageUri = Uri.parse(savePlaceEditDetail!!.image)
+
+        binding?.ivPlaceImage?.setImageURI(saveImageUri)
+        binding?.btnSave?.text = "UPDATE"
     }
 
     // gallery launcher
     private val openGalleryLauncher: ActivityResultLauncher<Intent> = // Intent type launcher
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-                result ->
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK && result.data != null) {
                 // will set image to image view(in our background)
                 val contentURI = result.data?.data
@@ -84,7 +122,11 @@ class AddYourPlace : AppCompatActivity() {
                         .show()
                 } catch (e: IOException) {
                     e.printStackTrace()
-                    Toast.makeText(this@AddYourPlace, "Failed to load image from gallery", Toast.LENGTH_SHORT)
+                    Toast.makeText(
+                        this@AddYourPlace,
+                        "Failed to load image from gallery",
+                        Toast.LENGTH_SHORT
+                    )
                         .show()
                 }
             }
@@ -118,7 +160,7 @@ class AddYourPlace : AppCompatActivity() {
                 ).show()
 
                 showRationalDialog(
-                    "Happy Places", "To use this feature you need to allow the access to the camera"
+                    "Save Places", "To use this feature you need to allow the access to the camera"
                 )
             }
         }
@@ -143,7 +185,7 @@ class AddYourPlace : AppCompatActivity() {
         // If the user denied the permission earlier than show Rational dialog with the text
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
             showRationalDialog(
-                "Happy Places", "oops"
+                "Save Places", "oops"
             )
             // If the user haven't responded yet than request permission for camera
         } else {
@@ -181,7 +223,7 @@ class AddYourPlace : AppCompatActivity() {
                     // start the intent+ set image to background
                     openGalleryLauncher.launch(galleryIntent)
                 } else {
-                    Toast.makeText(this@AddYourPlace,"Please Allow ",Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@AddYourPlace, "Please Allow ", Toast.LENGTH_LONG).show()
                 }
             }
 
@@ -189,7 +231,7 @@ class AddYourPlace : AppCompatActivity() {
                 permissions: MutableList<PermissionRequest?>?, token: PermissionToken?
             ) {
                 showRationalDialog(
-                    "Happy Places", "Permissions are denied open settings and allow permission"
+                    "Save Places", "Permissions are denied open settings and allow permission"
                 )
             }
         }).onSameThread().check()
@@ -211,6 +253,89 @@ class AddYourPlace : AppCompatActivity() {
         }
         return Uri.parse(file.absolutePath)
     }
+
+
+    private fun addPlace(savePlacesDao: SavePlacesDao) {
+        val title = binding?.etTitle?.text.toString()
+        val image = saveImageUri.toString()
+        val description = binding?.etDescription?.text.toString()
+        val location = binding?.etLocation?.text.toString()
+        val date = binding?.etDate?.text.toString()
+        if (title.isEmpty() || saveImageUri == null || description.isEmpty() || location.isEmpty() || date.isEmpty()) {
+            Toast.makeText(this, "Enter all the fields", Toast.LENGTH_SHORT).show()
+        } else {
+            // run on coroutine
+            lifecycleScope.launch {
+                savePlacesDao.insert(
+                    SavePlacesEntity(
+                        title = title,
+                        image = image,
+                        description = description,
+                        location = location,
+                        date = date,
+                        latitude = mLatitude,
+                        longitude = mLongitude
+                    )
+                )
+                Toast.makeText(
+                    applicationContext, "Data saved", Toast.LENGTH_SHORT
+                ).show()
+            }
+            finish()
+        }
+    }
+
+    private fun addUpdatePlace(savePlacesDao: SavePlacesDao) {
+        val title = binding?.etTitle?.text.toString()
+        val image = saveImageUri.toString()
+        val description = binding?.etDescription?.text.toString()
+        val location = binding?.etLocation?.text.toString()
+        val date = binding?.etDate?.text.toString()
+        if (title.isEmpty() || saveImageUri == null || description.isEmpty() || location.isEmpty() || date.isEmpty()) {
+            Toast.makeText(this, "Enter all the fields", Toast.LENGTH_SHORT).show()
+        } else {
+            if (savePlaceEditDetail == null) {
+                // run on coroutine
+                lifecycleScope.launch {
+                    savePlacesDao.insert(
+                        SavePlacesEntity(
+                            title = title,
+                            image = image,
+                            description = description,
+                            location = location,
+                            date = date,
+                            latitude = mLatitude,
+                            longitude = mLongitude
+                        )
+                    )
+                    Toast.makeText(
+                        applicationContext, "data saved", Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+            } else {
+                lifecycleScope.launch {
+                    savePlacesDao.update(
+                        SavePlacesEntity( savePlaceEditDetail!!.id,
+                            title = title,
+                            image = image,
+                            description = description,
+                            location = location,
+                            date = date,
+                            latitude = mLatitude,
+                            longitude = mLongitude
+                        )
+                    )
+                    Toast.makeText(
+                        applicationContext, "Data Updated", Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+            finish()
+        }
+    }
+
+
 
     /** For Calender */
     private fun materialDatePickerDialog() {
@@ -237,6 +362,7 @@ class AddYourPlace : AppCompatActivity() {
             datePicker.dismiss()
         }
     }
+
     override fun onDestroy() {
         super.onDestroy()
         binding = null

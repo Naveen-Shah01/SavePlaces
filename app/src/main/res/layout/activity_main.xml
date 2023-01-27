@@ -6,20 +6,30 @@
     android:layout_height="match_parent"
     tools:context=".activities.MainActivity">
 
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_save_places_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:id="@+id/tv_no_records_available"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:padding="15dp"
+        android:text="@string/not_saved_places_text"
+        android:textSize="25sp"
+        android:visibility="visible"
+        tools:visibility="visible" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabAddHappyPlace"
+        android:id="@+id/fabSavePlace"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
+        android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_button_margin"
         android:backgroundTint="@color/three"
         android:elevation="5dp"
@@ -28,6 +38,7 @@
         app:fabSize="normal"
         app:maxImageSize="30dp"
         app:rippleColor="@color/six"
-        app:tint="@color/white" />
-    <!--tint used to make icon color white-->
+        app:tint="@color/white"
+        android:contentDescription="@string/fab_to_add_places_text" />
+
 </FrameLayout>

@@ -2,7 +2,7 @@
 <resources>
 
     <style name="CustomNoActionBarTheme" parent="@style/Theme.MaterialComponents.Light.NoActionBar">
-        <item name="android:statusBarColor">@color/six</item>
+        <item name="android:statusBarColor">@color/three</item>
     </style>
 
     <style name="CustomToolbarStyle" parent="@style/ThemeOverlay.MaterialComponents.ActionBar">
