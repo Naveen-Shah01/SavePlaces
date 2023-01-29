@@ -1,5 +1,6 @@
 package com.example.saveplaces.activities
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -9,7 +10,7 @@ import com.example.saveplaces.databinding.ActivitySavePlacesDetailBinding
 class SavePlacesDetailActivity : AppCompatActivity() {
 
     private var binding: ActivitySavePlacesDetailBinding? = null
-
+    private lateinit var savePlaceDetailModel: SavePlacesEntity
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySavePlacesDetailBinding.inflate(layoutInflater)
@@ -24,10 +25,15 @@ class SavePlacesDetailActivity : AppCompatActivity() {
         }
 
         fillDetails()
+
+        binding?.btnViewOnMap?.setOnClickListener {
+            openMap()
+        }
+
     }
 
     private fun fillDetails() {
-        lateinit var savePlaceDetailModel: SavePlacesEntity
+
         if (intent.hasExtra(MainActivity.EXTRA_PLACE_DETAILS)) {
             savePlaceDetailModel =
                 intent.getSerializableExtra(MainActivity.EXTRA_PLACE_DETAILS) as SavePlacesEntity
@@ -36,12 +42,12 @@ class SavePlacesDetailActivity : AppCompatActivity() {
         binding?.ivPlaceImage?.setImageURI(Uri.parse(savePlaceDetailModel.image))
         binding?.tvDescription?.text = savePlaceDetailModel.description
         binding?.tvLocation?.text = savePlaceDetailModel.location
+    }
 
-//        binding?.btnViewOnMap?.setOnClickListener {
-//            val intent = Intent(this,MapActivity::class.java)
-//            intent.putExtra(MainActivity.EXTRA_PLACE_DETAILS,happyPlaceDetailModel)
-//            startActivity(intent)
-//        }
+    private fun openMap() {
+        val intent = Intent(this, MapActivity::class.java)
+        intent.putExtra(MainActivity.EXTRA_PLACE_DETAILS, savePlaceDetailModel)
+        startActivity(intent)
     }
 
     override fun onDestroy() {

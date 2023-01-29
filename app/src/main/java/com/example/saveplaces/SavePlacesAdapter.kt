@@ -49,8 +49,7 @@ class SavePlacesAdapter(
 
     fun removeAt(position: Int) : SavePlacesEntity{
         notifyItemRemoved(position)
-        return list[position
-        ]
+        return list[position]
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

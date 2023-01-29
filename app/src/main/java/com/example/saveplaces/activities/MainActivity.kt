@@ -16,6 +16,7 @@ import com.example.saveplaces.Utils.SwipeToEditCallback
 import com.example.saveplaces.database.SavePlacesDao
 import com.example.saveplaces.database.SavePlacesEntity
 import com.example.saveplaces.databinding.ActivityMainBinding
+
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
@@ -48,6 +49,7 @@ class MainActivity : AppCompatActivity() {
                 setUpSavePlaceRecyclerView(list)
             }
         }
+
     }
 
 

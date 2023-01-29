@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     //enable kotlin annotation processor
     id 'kotlin-kapt'
+    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
 android {
@@ -33,13 +34,14 @@ android {
         jvmTarget = '1.8'
     }
     buildFeatures {
-        viewBinding = true
+        viewBinding true
     }
 }
 
 dependencies {
     // for dexter
     implementation 'com.karumi:dexter:6.2.3'
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
 
     def room_version = '2.4.3'
 
@@ -51,6 +53,10 @@ dependencies {
     // optional - Kotlin Extensions and Coroutines support for Room
     implementation("androidx.room:room-ktx:$room_version")
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.5.1"
+
+    // using map api
+    implementation 'com.google.android.libraries.places:places:3.0.0'
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
 
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.5.1'
