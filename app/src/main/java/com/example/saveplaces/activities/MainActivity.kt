@@ -9,6 +9,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.saveplaces.R
 import com.example.saveplaces.SavePlacesAdapter
 import com.example.saveplaces.SavePlacesApp
 import com.example.saveplaces.Utils.SwipeToDeleteCallback
@@ -26,7 +27,7 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         var EXTRA_PLACE_DETAILS = "extra_place_details"
-        private var ADD_PLACE_ACTIVITY_REQUEST_CODE = 3
+        private var ADD_PLACE_ACTIVITY_REQUEST_CODE = 2
     }
 
 
@@ -34,6 +35,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding?.root)
+
 
 
         binding?.fabSavePlace?.setOnClickListener {
