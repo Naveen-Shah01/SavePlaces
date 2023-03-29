@@ -25,7 +25,7 @@ class SavePlacesAdapter(
         val ivPlaceImage = binding.ivPlaceImage
         val tvTitle = binding.tvTitle
         val tvDescription = binding.tvDescription
-        // TODO( Add var for date)
+        val tvDate = binding.tvDate
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -58,6 +58,7 @@ class SavePlacesAdapter(
         holder.ivPlaceImage.setImageURI(Uri.parse(model.image))
         holder.tvTitle.text = model.title
         holder.tvDescription.text = model.description
+        holder.tvDate.text=model.date
         holder.binding.root.setOnClickListener {
             if (onClickListener != null) {
                 onClickListener!!.onClick(position, model)

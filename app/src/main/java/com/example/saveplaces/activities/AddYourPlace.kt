@@ -92,7 +92,7 @@ class AddYourPlace : AppCompatActivity() {
 
         if (!Places.isInitialized()) {
             Places.initialize(
-                this@AddYourPlace,BuildConfig.GMP_KEY
+                this@AddYourPlace, BuildConfig.GMP_KEY
             )
         }
 
@@ -116,66 +116,7 @@ class AddYourPlace : AppCompatActivity() {
     }
 
 
-    @SuppressLint("MissingPermission")
-    private fun requestNewLocationData() {
-        val mLocationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 1000)
-            .setWaitForAccurateLocation(false)
-            .setMaxUpdates(1)
-            .build()
 
-        mFusedLocationClient.requestLocationUpdates(
-            mLocationRequest,
-            mLocationCallback,
-            Looper.myLooper()
-        )
-    }
-    private val mLocationCallback = object : LocationCallback(){
-        override fun onLocationResult(locationResult: LocationResult) {
-            val mLastLocation : Location? = locationResult.lastLocation
-            mLatitude = mLastLocation!!.latitude
-            mLongitude = mLastLocation.longitude
-            Toast.makeText(this@AddYourPlace,"$mLatitude",Toast.LENGTH_LONG).show()
-            Log.i("Latitude","$mLatitude")
-            Log.i("Longitude","$mLongitude")
-
-//
-            //Code to translate the lat and lng values to a human understandable address text
-            val addressTask=GetAddressFromLatLng(this@AddYourPlace, mLatitude, mLongitude)
-
-            addressTask.setAddressListener(object : GetAddressFromLatLng.AddressListener {
-                override fun onAddressFound(address: String) {
-                    binding?.etLocation?.setText(address)
-                }
-
-                override fun onError() {
-                    Log.e("Get address:: ", " Something went wrong", )
-                }
-
-            })
-
-            lifecycleScope.launch(Dispatchers.IO){
-                //CoroutineScope tied to this LifecycleOwner's Lifecycle.
-                //This scope will be cancelled when the Lifecycle is destroyed
-                addressTask.launchBackgroundProcessForRequest()  //starts the task to get the address in text from the lat and lng values
-            }
-        }
-    }
-
-    private fun giveLocation() {
-        try {
-            // These are the list of fields which we required is passed
-            val fields = listOf(
-                Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.ADDRESS
-            )
-            // Start the autocomplete intent with a unique request code.
-            val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
-                .build(this@AddYourPlace)
-            startAutocomplete.launch(intent)
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
-    }
 
     //location permission launcher
     private val requestLocationPermission: ActivityResultLauncher<String> =
@@ -204,9 +145,7 @@ class AddYourPlace : AppCompatActivity() {
 
             } else if (result.resultCode == RESULT_CANCELED) {
                 // The user canceled the operation.
-                Toast.makeText(
-                    this@AddYourPlace, "User canceled autocomplete", Toast.LENGTH_LONG
-                ).show()
+                Log.i("Message:: ","User canceled autocomplete")
             }
         }
 
@@ -256,7 +195,7 @@ class AddYourPlace : AppCompatActivity() {
             } else {
                 // If the permission is denied then show another dialog
                 Toast.makeText(
-                    this@AddYourPlace, "Oops, you just denied the permission.", Toast.LENGTH_LONG
+                    this@AddYourPlace, "App need camera access", Toast.LENGTH_LONG
                 ).show()
             }
         }
@@ -281,9 +220,8 @@ class AddYourPlace : AppCompatActivity() {
         // If the user denied the permission earlier than show Rational dialog with the text
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
             showRationalDialog(
-                "Save Places", "oops"
+                "Save Places", "App need Camera Permission to Capture Images"
             )
-            // If the user haven't responded yet than request permission for camera
         } else {
             requestPermission.launch(Manifest.permission.CAMERA)
         }
@@ -319,7 +257,11 @@ class AddYourPlace : AppCompatActivity() {
                     // start the intent+ set image to background
                     openGalleryLauncher.launch(galleryIntent)
                 } else {
-                    Toast.makeText(this@AddYourPlace, "Please Allow ", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        this@AddYourPlace,
+                        "App Need Gallery To get Images",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
             }
 
@@ -419,6 +361,67 @@ class AddYourPlace : AppCompatActivity() {
     }
 
 
+    @SuppressLint("MissingPermission")
+    private fun requestNewLocationData() {
+        val mLocationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 1000)
+            .setWaitForAccurateLocation(false)
+            .setMaxUpdates(1)
+            .build()
+
+        mFusedLocationClient.requestLocationUpdates(
+            mLocationRequest,
+            mLocationCallback,
+            Looper.myLooper()
+        )
+    }
+
+    private val mLocationCallback = object : LocationCallback() {
+        override fun onLocationResult(locationResult: LocationResult) {
+            val mLastLocation: Location? = locationResult.lastLocation
+            mLatitude = mLastLocation!!.latitude
+            mLongitude = mLastLocation.longitude
+            Log.i("Latitude", "$mLatitude")
+            Log.i("Longitude", "$mLongitude")
+
+//
+            //Code to translate the lat and lng values to a human understandable address text
+            val addressTask = GetAddressFromLatLng(this@AddYourPlace, mLatitude, mLongitude)
+
+            addressTask.setAddressListener(object : GetAddressFromLatLng.AddressListener {
+                override fun onAddressFound(address: String) {
+                    binding?.etLocation?.setText(address)
+                }
+
+                override fun onError() {
+                    Log.e("Get address:: ", " Something went wrong")
+                }
+
+            })
+
+            lifecycleScope.launch(Dispatchers.IO) {
+                //CoroutineScope tied to this LifecycleOwner's Lifecycle.
+                //This scope will be cancelled when the Lifecycle is destroyed
+                addressTask.launchBackgroundProcessForRequest()  //starts the task to get the address in text from the lat and lng values
+            }
+        }
+    }
+
+    private fun giveLocation() {
+        try {
+            // These are the list of fields which we required is passed
+            val fields = listOf(
+                Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.ADDRESS
+            )
+            // Start the autocomplete intent with a unique request code.
+            val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
+                .build(this@AddYourPlace)
+            startAutocomplete.launch(intent)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+
     /** For Calender */
     private fun materialDatePickerDialog() {
         val datePicker = MaterialDatePicker.Builder.datePicker()
@@ -448,14 +451,18 @@ class AddYourPlace : AppCompatActivity() {
     private fun getCurrentLocation() {
         if (checkIfLocationPermissionGranted()) {
             if (isLocationServiceEnabled()) {
-              //  Toast.makeText(this@AddYourPlace, "EveryThing is Enabled", Toast.LENGTH_LONG).show()
+                //  Toast.makeText(this@AddYourPlace, "EveryThing is Enabled", Toast.LENGTH_LONG).show()
                 requestNewLocationData()
             } else {
-                Toast.makeText(this, "Your Location is off, Please turn on", Toast.LENGTH_LONG)
+                Toast.makeText(this, "Your Location is off, Please turn on", Toast.LENGTH_SHORT)
                     .show()
                 val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
                 startActivity(intent)
-               Toast.makeText(this@AddYourPlace,"Press Again Access Current Location",Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    this@AddYourPlace,
+                    "Press Again To Access Current Location",
+                    Toast.LENGTH_LONG
+                ).show()
             }
         } else {
             takeLocationPermission()

@@ -10,7 +10,8 @@
         android:id="@+id/toolbar_save_place_detail"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/three"
+        android:background="#FFFFFF"
+        android:elevation="2dp"
         android:theme="@style/CustomToolbarStyle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -34,29 +35,31 @@
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/iv_place_image"
-                android:layout_marginTop="4dp"
-                android:layout_marginLeft="3dp"
-                android:layout_marginRight="3dp"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/detail_screen_image_height_size"
+                android:layout_marginLeft="3dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginRight="3dp"
                 android:scaleType="centerCrop"
                 android:src="@drawable/detail_screen_image_placeholder"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:id="@+id/tv_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="@dimen/detail_screen_description_margin"
                 android:textColor="@color/black"
-                android:textStyle="bold"
                 android:textSize="22sp"
+                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.533"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/iv_place_image"
                 tools:text="Title" />
+
             <TextView
                 android:id="@+id/tv_description"
                 android:layout_width="match_parent"
@@ -94,13 +97,13 @@
                 android:layout_marginTop="@dimen/detail_screen_btn_view_on_map_marginTop"
                 android:layout_marginEnd="@dimen/detail_screen_btn_view_on_map_marginStartEnd"
                 android:background="@drawable/shape_button_rounded"
-                app:backgroundTint="@color/three"
                 android:gravity="center"
                 android:paddingTop="@dimen/detail_screen_btn_view_on_map_PaddingTopBottom"
                 android:paddingBottom="@dimen/detail_screen_btn_view_on_map_PaddingTopBottom"
                 android:text="@string/btn_text_view_on_map"
                 android:textColor="@color/white_color"
                 android:textSize="@dimen/detail_screen_btn_view_on_map_text_size"
+                app:backgroundTint="@color/three"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_location" />

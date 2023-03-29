@@ -17,6 +17,7 @@ import com.example.saveplaces.Utils.SwipeToEditCallback
 import com.example.saveplaces.database.SavePlacesDao
 import com.example.saveplaces.database.SavePlacesEntity
 import com.example.saveplaces.databinding.ActivityMainBinding
+import com.google.android.material.snackbar.Snackbar
 
 import kotlinx.coroutines.launch
 
@@ -94,6 +95,17 @@ class MainActivity : AppCompatActivity() {
                     val adapter = binding?.rvSavePlacesList?.adapter as SavePlacesAdapter
                     val itemToDelete = adapter.removeAt(viewHolder.adapterPosition)
                     deleteFromDatabase(itemToDelete)
+                    Snackbar.make(binding?.fabSavePlace!!,"Saved Place Deleted",Snackbar.LENGTH_LONG).apply {
+
+                        setAnchorView(binding?.fabSavePlace!!)
+                        setAction("UNDO"){
+                            lifecycleScope.launch {
+                                savePlacesDao.insert(itemToDelete)
+                            }
+                        }
+
+
+                    }.show()
                 }
             }
             val deleteItemTouchHelper = ItemTouchHelper(deleteSwipeHandler)
@@ -108,24 +120,7 @@ class MainActivity : AppCompatActivity() {
     private fun deleteFromDatabase(position: SavePlacesEntity) {
 
         lifecycleScope.launch {
-            savePlacesDao.delete(
-                SavePlacesEntity(
-                    position.id,
-                    position.title,
-                    position.image,
-                    position.description,
-                    position.date,
-                    position.location,
-                    position.latitude,
-                    position.longitude
-                )
-            )
-            Toast.makeText(
-                applicationContext,
-                "Saved Place deleted successfully",
-                Toast.LENGTH_SHORT
-            ).show()
-
+            savePlacesDao.delete(position)
         }
     }
 

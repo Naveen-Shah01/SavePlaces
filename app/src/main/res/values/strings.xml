@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Save Places</string>
+    <string name="app_name">Naveen</string>
 
     <string name="hint_title">Title (Keep it short and Concise)</string>
     <string name="hint_description">Description About the Place </string>
@@ -14,5 +14,6 @@
 
 
     <string name="btn_text_view_on_map">VIEW ON MAP</string>
+    <string name="app_logo">app_logo</string>
 
 </resources>

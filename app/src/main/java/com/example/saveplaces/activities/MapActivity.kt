@@ -51,7 +51,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         googleMap.addMarker(
             MarkerOptions().position(position).title(savePlaceMapDetails!!.location)
         )
-        val newLatLngZoom = CameraUpdateFactory.newLatLngZoom(position,16.5f)
+        val newLatLngZoom = CameraUpdateFactory.newLatLngZoom(position,17.5f)
         googleMap.animateCamera(newLatLngZoom)
     }
 }

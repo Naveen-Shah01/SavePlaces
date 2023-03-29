@@ -6,8 +6,8 @@
     </style>
 
     <style name="CustomToolbarStyle" parent="@style/ThemeOverlay.MaterialComponents.ActionBar">
-        <item name="android:textColorPrimary">#FFFFFF</item>
-        <item name="android:colorControlNormal">#FFFFFF</item>
+        <item name="android:textColorPrimary">#000000</item>
+        <item name="android:colorControlNormal">#000000</item>
     </style>
 
 
