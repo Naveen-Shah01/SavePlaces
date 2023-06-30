@@ -37,6 +37,7 @@ SavePlaces is an Android application built with KOTLIN that allows users to save
 ## Requirements
 
 - Android device running Android 5.0 (Lollipop) or above.
+- camera and gallery permission to capture images
 - Internet connectivity for location lookup, Google Maps API usage, and navigation integration.
 - GPS functionality enabled for accurate location tracking.
 
