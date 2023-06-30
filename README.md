@@ -18,6 +18,22 @@ SavePlaces is an Android application built with KOTLIN that allows users to save
 
 - **Backup and Restore**: SavePlaces offers the option to backup and restore the saved places data. This feature ensures that users' data is securely stored and can be recovered in case of device changes or data loss.
 
+
+## Tech Stack
+
+- **Kotlin:** The primary programming language used for developing the Android application.
+
+- **Android Studio:** The official integrated development environment (IDE) for Android app development.
+
+- **Android SDK:** The software development kit for building Android applications.
+
+- **Room Database:** A persistence library that provides an abstraction layer over SQLite for database operations in Android applications. simplifies data storage and retrieval processes.
+
+- **Android framework:**  set of APIs that provide the core functionality for Android apps.
+
+- **XML:** Used for defining the app's layout structure and UI elements.
+
+
 ## Requirements
 
 - Android device running Android 5.0 (Lollipop) or above.
