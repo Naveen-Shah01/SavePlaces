@@ -22,7 +22,7 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
-    // refactor all the names
+
     private var binding: ActivityMainBinding? = null
     private lateinit var savePlacesDao: SavePlacesDao
 
