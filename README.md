@@ -32,8 +32,29 @@ SavePlaces is an Android application built with KOTLIN that allows users to save
 
 - **XML:** Used for defining the app's layout structure and UI elements.
 
-## Preview
-![SavePlaces Preview](https://drive.google.com/uc?export=view&id=1u3-MFrteX07x9GFwDlWIQmNPC22FerV2)
+Certainly! Here's how you can incorporate the new link into the "Screenshots" section:
+
+
+## Screenshots
+
+Here are some screenshots that provide a glimpse of the SavePlaces app:
+
+- **Home Screen**  
+  ![Home Screen](https://drive.google.com/uc?export=view&id=1u3-MFrteX07x9GFwDlWIQmNPC22FerV2)
+  
+- **Add New Place**  
+  ![Add New Place](https://drive.google.com/uc?export=view&id=1V6Ap4BFRCj6j9ZsosrGKZ_RlOeoY22tJ)
+  
+- **Place Details**  
+  ![Place Details](https://drive.google.com/uc?export=view&id=1wILLWiihImf7qolzrwBA2eovhmojpV0_)
+  
+- **Map View**  
+  ![Map View](https://drive.google.com/uc?export=view&id=1LL7PfqDIpZPIKBZ1wZVjoqxo9V91A6FB)
+  
+- **Edit Place**  
+  ![User Profile](https://drive.google.com/uc?export=view&id=1YRbZxXTASaSmCVUm_jHTwTQhF2MDYnBA)
+
+Replace the existing "Screenshots" section in your README with this updated code. This will include the new preview image while keeping the section organized and user-friendly. Ensure that the sharing settings of the images in Google Drive are set to "Anyone with the link can view" for accessibility.
 
 
 ## Requirements
