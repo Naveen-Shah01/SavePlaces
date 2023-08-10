@@ -383,7 +383,7 @@ class AddYourPlace : AppCompatActivity() {
             Log.i("Latitude", "$mLatitude")
             Log.i("Longitude", "$mLongitude")
 
-//
+
             //Code to translate the lat and lng values to a human understandable address text
             val addressTask = GetAddressFromLatLng(this@AddYourPlace, mLatitude, mLongitude)
 
