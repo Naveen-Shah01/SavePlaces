@@ -32,12 +32,10 @@ SavePlaces is an Android application built with KOTLIN that allows users to save
 
 - **XML:** Used for defining the app's layout structure and UI elements.
 
-Certainly! Here's how you can incorporate the new link into the "Screenshots" section:
-
 
 ## Screenshots
 
-Here are some screenshots that provide a glimpse of the SavePlaces app:
+Here are some images of SavePlaces App
 
 - **Home Screen**  
   ![Home Screen](https://drive.google.com/uc?export=view&id=1u3-MFrteX07x9GFwDlWIQmNPC22FerV2)
